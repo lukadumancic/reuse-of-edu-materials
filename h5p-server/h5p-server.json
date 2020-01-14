@@ -1,0 +1,7 @@
+{
+  "host": "localhost",
+  "port": 8080,
+  "libraryDir": "lib",
+  "mainLibraryDir": "h5p-course-presentation",
+  "contentDir": "presentations"
+}
