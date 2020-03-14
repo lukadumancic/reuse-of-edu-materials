@@ -1,9 +1,16 @@
-import './LoadEnv'; // Must be the first import
-import app from '@server';
-import { logger } from '@shared';
+import express from 'express';
+import routes from './routes';
+const app = express();
+const port = 8080; // default port to listen
 
-// Start the server
-const port = Number(process.env.PORT || 3000);
-app.listen(port, () => {
-    logger.info('Express server started on port: ' + port);
+// define a route handler for the default home page
+app.get("/", (req, res) => {
+  res.send("Hello world!");
 });
+
+// start the Express server
+app.listen(port, () => {
+  console.log(`server started at http://localhost:${port}`);
+});
+
+routes(app);
