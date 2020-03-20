@@ -1,7 +1,6 @@
 import { Express } from "express";
 import multer from "multer";
-import fs from "fs";
-import unzipper from "unzipper";
+import saveFile from "../helpers/saveFile";
 
 const routeName = "/file";
 
@@ -19,12 +18,11 @@ const upload = multer({ storage });
 
 export default (app: Express) => {
   app.post(routeName, upload.any(), (req, res) => {
-    const randomFolderName = new Date() + Math.random().toString();
-    fs.createReadStream(`${__dirname}/../tmp/${req.body.fileName}`).pipe(
-      unzipper.Extract({
-        path: `${__dirname}/../tmp/unzip/${randomFolderName}`
-      })
-    );
-    res.send(randomFolderName);
+    try {
+      const folderName = saveFile(req);
+      res.send(folderName);
+    } catch (e) {
+      res.sendStatus(400);
+    }
   });
 };
