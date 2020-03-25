@@ -1,6 +1,7 @@
 import { Express } from "express";
 import multer from "multer";
 import saveFile from "../helpers/saveFile";
+import path from "path";
 
 const routeName = "/file";
 
@@ -17,6 +18,18 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 export default (app: Express) => {
+  app.get("/:image", (req, res) => {
+    const imagePath = path.resolve(
+      __dirname,
+      "..",
+      "services",
+      "WebScraper",
+      "screenshots",
+      req.params.image
+    );
+    res.sendFile(imagePath);
+  });
+
   app.post(routeName, upload.any(), (req, res) => {
     try {
       const folderName = saveFile(req);

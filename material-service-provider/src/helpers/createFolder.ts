@@ -14,6 +14,6 @@ export default () => {
     dir
   );
   fs.mkdirSync(target);
-  fs.mkdirSync(path.join(target, "content"));
+  fs.mkdirSync(path.join(target, "images"));
   return dir;
 };

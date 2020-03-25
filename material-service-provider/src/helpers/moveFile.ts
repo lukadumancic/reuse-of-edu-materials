@@ -16,7 +16,9 @@ function copyFileSync(source: string, target: string) {
 function copyFolderRecursiveSync(source: string, target: string) {
   let files = [];
 
-  const targetFolder = target;
+  const targetFolder = path
+    .join(target, path.basename(source))
+    .replace("/content", "/");
   if (!fs.existsSync(targetFolder)) {
     fs.mkdirSync(targetFolder);
   }
@@ -48,8 +50,7 @@ export default (req: Request) => {
     "..",
     "h5p-server",
     "presentations",
-    req.query.presentationName,
-    "content"
+    req.query.presentationName
   );
   try {
     copyFolderRecursiveSync(source, target);
