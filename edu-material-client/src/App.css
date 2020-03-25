@@ -1,36 +1,60 @@
-body {
-  padding: 20px;
+:root {
+  --primary: #2782d3;
+  --black: #191919;
 }
+
+html * {
+  font-size: 1em;
+  color: #000;
+  font-family: "Nunito", sans-serif !important;
+}
+
+body {
+  padding: 0px;
+}
+
+a {
+  text-decoration: none;
+}
+
 #content {
   width: 100%;
 }
+
 .react-grid-layout {
   background: #eee;
 }
+
 .layoutJSON {
   background: #ddd;
   border: 1px solid black;
   margin-top: 10px;
   padding: 10px;
 }
+
 .columns {
   -moz-columns: 120px;
   -webkit-columns: 120px;
   columns: 120px;
 }
+
 .react-grid-item {
   box-sizing: border-box;
 }
+
 .react-grid-item:not(.react-grid-placeholder) {
   background: #ccc;
   border: 1px solid black;
 }
+
 .react-grid-item.resizing {
   opacity: 0.9;
 }
+
 .react-grid-item.static {
   background: #cce;
 }
+
 .react-grid-item .text {
   font-size: 24px;
   text-align: center;
@@ -42,12 +66,15 @@ body {
   margin: auto;
   height: 24px;
 }
+
 .react-grid-item .minMax {
   font-size: 12px;
 }
+
 .react-grid-item .add {
   cursor: pointer;
 }
+
 .react-grid-dragHandleExample {
   cursor: move; /* fallback if grab cursor is unsupported */
   cursor: grab;
@@ -96,4 +123,176 @@ body {
   border: 1px solid black;
   margin: 10px 0;
   padding: 10px;
+}
+
+.screen-image {
+  width: 100%;
+  height: 100%;
+}
+
+.unselectable {
+  user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  pointer-events: none;
+}
+
+.navigation {
+  width: 100%;
+  height: 60px;
+  display: flex;
+  background-color: var(--primary);
+  align-items: center;
+}
+
+.navigation img {
+  width: 80px;
+  height: 60px;
+  margin-left: 120px;
+}
+
+.navigation h1 {
+  font-size: 20px;
+  color: #fff;
+  font-weight: 800;
+  flex-grow: 1;
+}
+
+.navigation div {
+  flex-grow: 2;
+  display: flex;
+  justify-content: left;
+  margin-right: 10px;
+}
+
+.navigation div a {
+  color: #fff;
+  opacity: 0.7;
+  font-weight: 800;
+  margin-left: 30px;
+}
+
+.navigation div a.selected {
+  opacity: 1;
+}
+
+.navigation div a:hover {
+  opacity: 1;
+}
+
+.container {
+  position: relative;
+  padding: 30px;
+  height: 100vh;
+}
+
+h1.title {
+  color: var(--black);
+  font-size: 24px;
+  font-family: "Popins";
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.card {
+  background-image: url("./assets/images/logo.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-color: var(--primary);
+  flex: 1 0 auto;
+  margin: 15px;
+  height: 300px;
+  min-width: 350px;
+  max-width: 400px;
+  position: relative;
+  cursor: pointer;
+}
+
+.card div {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background-color: #00000050;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 15px;
+  transition: cubic-bezier(0.5, 0, 0.5, 1) 0.2s;
+}
+
+.card div span {
+  color: #fff;
+}
+
+.card:hover > div {
+  height: 100%;
+}
+
+.card:hover > div span {
+  height: 100%;
+  padding-top: 24px;
+}
+
+.round-button {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  font-size: 25px;
+  font-weight: 800;
+  color: var(--primary);
+  background: #ffffff;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+}
+
+.round-button:hover {
+  background: #F6F6F6;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.tool-button {
+  position: absolute;
+  top: 45px;
+  right: 30px;
+}
+
+
+@media only screen and (max-width: 800px) {
+  .navigation img {
+    margin-left: 0px;
+  }
+  .container {
+    padding: 10px;
+  }
+  .tool-button {
+    position: absolute;
+    top: 25px;
+    right: 10px;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .navigation div a {
+    margin-left: 10px;
+  }
+  .container {
+    padding: 0px;
+  }
+  .tool-button {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+  }
 }
