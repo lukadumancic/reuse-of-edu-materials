@@ -1,5 +1,6 @@
 import React, { useLayoutEffect, useEffect, useState } from "react";
 import RGL, { WidthProvider } from "react-grid-layout";
+import config from "../config";
 
 const ReactGridLayout = WidthProvider(RGL);
 
@@ -22,7 +23,7 @@ const PresentationScreenGrid = (
     items: [1, 2, 3],
     rowHeight: 30,
     onLayoutChange: function(layout: any) {},
-    cols: 12,
+    cols: 12
   }
 ) => {
   const [width, height] = useWindowSize();
@@ -33,7 +34,7 @@ const PresentationScreenGrid = (
           <img
             draggable="false"
             className="screen-image unselectable"
-            src={v.src}
+            src={config.restApiHostname + "/file/" + v.src}
             alt=""
           />
         </div>
@@ -48,8 +49,7 @@ const PresentationScreenGrid = (
   const generateLayout = () => {
     const screensInRow = Math.min(Math.round(width / 400), 4) || 4;
     const screenWidth = Math.floor(12 / screensInRow);
-    const screenHeight = Math.round(width / 12 * screenWidth * 0.7 / 150);
-    console.log({ screensInRow, screenWidth, screenHeight });
+    const screenHeight = Math.round(((width / 12) * screenWidth * 0.7) / 150);
     return props.items.map((item: any, i: number) => {
       return {
         x: (i % 4) * screenWidth,
@@ -68,7 +68,12 @@ const PresentationScreenGrid = (
   const [layout, setLayout] = useState(generateLayout());
 
   return (
-    <ReactGridLayout layout={layout} onLayoutChange={onLayoutChange} {...props} verticalCompact={false}>
+    <ReactGridLayout
+      layout={layout}
+      onLayoutChange={onLayoutChange}
+      {...props}
+      verticalCompact={false}
+    >
       {generateDOM()}
     </ReactGridLayout>
   );

@@ -258,7 +258,7 @@ h1.title {
 }
 
 .round-button:hover {
-  background: #F6F6F6;
+  background: #f6f6f6;
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.15);
 }
 
@@ -280,6 +280,28 @@ h1.title {
   margin-left: 10px;
   bottom: 0px;
   z-index: 3;
+}
+
+div.dropzone-container {
+  width: 100%;
+  height: 100px;
+  background-color: var(--primary);
+  color: #fff;
+  display: flex;
+  padding: 10px;
+}
+
+div.dropzone-container p {
+  color: #FFF;
+  font-size: 24px;
+  font-weight: 600;
+  height: 100%;
+  justify-content: center;
+  width: 90vw;
+}
+
+div.dropzone-container.active {
+  opacity: 0.7;
 }
 
 @media only screen and (max-width: 800px) {

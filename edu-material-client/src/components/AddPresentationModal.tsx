@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Modal from "react-modal";
 import { useDispatch } from "react-redux";
 import { addPresentation } from "../actions";
+import axios from "axios";
+import config from "../config";
 
 const customStyles = {
   content: {
@@ -25,8 +27,18 @@ const AddPresentationModal = ({
 }: AddPresentationModalTypes) => {
   const dispatch = useDispatch();
   const [presentationName, setPresentationName] = useState("");
-  const onFormSubmit = () => {
-    dispatch(addPresentation(presentationName));
+  const onFormSubmit = async () => {
+    const response = await axios.post(
+      config.restApiHostname + "/presentation",
+      {
+        body: {
+          presentationName
+        }
+      }
+    );
+    if (response.status === 200) {
+      dispatch(addPresentation(presentationName, response.data));
+    }
   };
   return (
     <Modal
@@ -43,9 +55,9 @@ const AddPresentationModal = ({
         />
         <button
           type="submit"
-          onClick={e => {
+          onClick={async e => {
             e.preventDefault();
-            onFormSubmit();
+            await onFormSubmit();
             onRequestClose();
           }}
         >

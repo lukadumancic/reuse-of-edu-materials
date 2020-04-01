@@ -8,5 +8,5 @@ export function hash(value: string) {
     // tslint:disable-next-line: no-bitwise
     hashValue |= 0;
   }
-  return hashValue.toString();
+  return Math.abs(hashValue).toString();
 }

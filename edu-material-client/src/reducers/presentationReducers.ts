@@ -1,5 +1,10 @@
 import { PresentationsState } from "../types";
-import { ADD_PRESENTATION, DELETE_PRESENTATION, SET_SELECTED_PRESENTATION_INDEX } from "../actions";
+import {
+  ADD_PRESENTATION,
+  DELETE_PRESENTATION,
+  SET_SELECTED_PRESENTATION_INDEX,
+  ADD_SCREENS
+} from "../actions";
 
 const presentationsState: PresentationsState = {
   presentations: [],
@@ -22,6 +27,12 @@ const eventReducer = (state = presentationsState, action: any) => {
       return {
         ...state,
         selectedPresentationIndex: action.payload
+      };
+    case ADD_SCREENS:
+      state.presentations[state.selectedPresentationIndex].screens =
+        action.payload;
+      return {
+        ...state
       };
     default:
       return state;

@@ -10,15 +10,16 @@ const storage = multer.diskStorage({
     cb(null, `${__dirname}/../tmp`);
   },
   filename(req: any, file: any, cb: any) {
-    req.body.fileName = file.originalname;
-    cb(null, file.originalname);
+    const filename = file.originalname || Math.random().toString()
+    req.body.fileName = filename;
+    cb(null, filename);
   }
 });
 
 const upload = multer({ storage });
 
 export default (app: Express) => {
-  app.get("/:image", (req, res) => {
+  app.get(routeName + "/:image", (req, res) => {
     const imagePath = path.resolve(
       __dirname,
       "..",
