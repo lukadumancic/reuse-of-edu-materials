@@ -1,15 +1,24 @@
 import React, { useState } from "react";
 import Card from "../components/Card";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { presentationsSelector } from "../selectors";
 import RoundButton from "../components/RoundButton";
 import AddPresentationModal from "../components/AddPresentationModal";
+import { deletePresentation, setSelectedPresentationIndex } from "../actions";
+import { useHistory } from "react-router-dom";
 
 const Home = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const presentations = useSelector(presentationsSelector);
-  const selectPresentation = (id: number) => {
-    console.log(id);
+  const selectPresentation = (index: number) => {
+    dispatch(setSelectedPresentationIndex(index));
+    history.push("/presentation");
+  };
+
+  const onDeleteClick = (index: number) => {
+    dispatch(deletePresentation(index));
   };
 
   return (
@@ -25,11 +34,21 @@ const Home = () => {
       </RoundButton>
       <div className="card-container">
         {presentations.presentations.length ? (
-          presentations.presentations.map(card => (
-            <Card {...card} onClick={() => selectPresentation(card.id)} />
+          presentations.presentations.map((card, index) => (
+            <Card
+              {...card}
+              key={index}
+              onClick={() => selectPresentation(index)}
+              deleteClick={() => onDeleteClick(index)}
+            />
           ))
         ) : (
-          <Card title="No presentations yet" onClick={() => {}} />
+          <Card
+            title="No presentations yet"
+            onClick={() => {
+              setIsModalOpen(true);
+            }}
+          />
         )}
       </div>
       <AddPresentationModal

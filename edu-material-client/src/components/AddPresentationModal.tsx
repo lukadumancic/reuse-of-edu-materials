@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import Modal from "react-modal";
+import { useDispatch } from "react-redux";
+import { addPresentation } from "../actions";
 
 const customStyles = {
   content: {
@@ -21,6 +23,11 @@ const AddPresentationModal = ({
   isModalOpen,
   onRequestClose
 }: AddPresentationModalTypes) => {
+  const dispatch = useDispatch();
+  const [presentationName, setPresentationName] = useState("");
+  const onFormSubmit = () => {
+    dispatch(addPresentation(presentationName));
+  };
   return (
     <Modal
       isOpen={isModalOpen}
@@ -28,12 +35,22 @@ const AddPresentationModal = ({
       style={customStyles}
       contentLabel="Add new presentation"
     >
-      <form>
-        <input />
-        <button>tab navigation</button>
-        <button>stays</button>
-        <button>inside</button>
-        <button>the modal</button>
+      <form className="add-presentation">
+        <label>Presentation name </label>
+        <input
+          placeholder="Enter presentation name"
+          onChange={e => setPresentationName(e.target.value)}
+        />
+        <button
+          type="submit"
+          onClick={e => {
+            e.preventDefault();
+            onFormSubmit();
+            onRequestClose();
+          }}
+        >
+          Add
+        </button>
       </form>
     </Modal>
   );

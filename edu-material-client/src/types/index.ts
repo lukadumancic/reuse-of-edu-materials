@@ -1,5 +1,4 @@
 export interface Presentation {
-  id: number;
   title: string;
   date: Date;
   screens: Screen[];
@@ -11,6 +10,7 @@ export interface Screen {
 
 export interface PresentationsState {
   presentations: Presentation[];
+  selectedPresentationIndex: number;
 }
 
 export interface Store {

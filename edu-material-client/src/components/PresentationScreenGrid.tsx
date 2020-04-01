@@ -33,7 +33,7 @@ const PresentationScreenGrid = (
           <img
             draggable="false"
             className="screen-image unselectable"
-            src="http://localhost:8080/2020-03-20T18:18:38.990Z.png"
+            src={v.src}
             alt=""
           />
         </div>
