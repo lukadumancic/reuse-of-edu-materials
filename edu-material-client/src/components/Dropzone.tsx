@@ -11,13 +11,17 @@ const Dropzone = (props: {
 }) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
-  const onDrop = useCallback(async acceptedFiles => {
+  const onDrop = useCallback(async (acceptedFiles) => {
     if (isLoading) {
       return;
     }
     setIsLoading(true);
-    const res1 = await axios.post(config.restApiHostname + "/file", {
-      file: acceptedFiles[acceptedFiles.length - 1]
+    var formData = new FormData();
+    formData.append("file", acceptedFiles[acceptedFiles.length - 1]);
+    const res1 = await axios.post(config.restApiHostname + "/file", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     });
     if (res1.status === 200) {
       // TODO this is bad solution
@@ -32,11 +36,10 @@ const Dropzone = (props: {
               `/presentation?presentationName=${props.presentationName}`
           );
           if (res3.status === 200) {
-            console.log(Object.values(res3.data));
             dispatch(
               addScreens(
-                Object.values(res3.data).map(src => ({
-                  src: src as string
+                Object.values(res3.data).map((src) => ({
+                  src: src as string,
                 }))
               )
             );
@@ -53,7 +56,7 @@ const Dropzone = (props: {
 
   const { isDragActive, getRootProps, getInputProps } = useDropzone({
     onDrop,
-    minSize: 0
+    minSize: 0,
   });
 
   return (
