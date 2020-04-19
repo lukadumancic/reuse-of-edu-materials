@@ -7,13 +7,13 @@ const routeName = "/file";
 
 const storage = multer.diskStorage({
   destination(req: any, file: any, cb: any) {
-    cb(null, `${__dirname}/../tmp`);
+    cb(null, path.resolve(__dirname, "..", "tmp"));
   },
   filename(req: any, file: any, cb: any) {
-    const filename = file.originalname || Math.random().toString()
+    const filename = file.originalname || Math.random().toString();
     req.body.fileName = filename;
     cb(null, filename);
-  }
+  },
 });
 
 const upload = multer({ storage });
@@ -31,9 +31,9 @@ export default (app: Express) => {
     res.sendFile(imagePath);
   });
 
-  app.post(routeName, upload.any(), (req, res) => {
+  app.post(routeName, upload.any(), async (req, res) => {
     try {
-      const folderName = saveFile(req);
+      const folderName = await saveFile(req);
       res.send(folderName);
     } catch (e) {
       res.sendStatus(400);

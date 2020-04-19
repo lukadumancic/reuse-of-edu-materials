@@ -9,8 +9,22 @@ function copyFileSync(source: string, target: string) {
       targetFile = path.join(target, path.basename(source));
     }
   }
-
-  fs.writeFileSync(targetFile, fs.readFileSync(source));
+  try {
+    if (path.basename(source) === "content.json" && fs.existsSync(target)) {
+      const targetRaw = fs.readFileSync(targetFile).toString();
+      const sourceRaw = fs.readFileSync(source).toString();
+      const contentOld = JSON.parse(targetRaw);
+      const contentNew = JSON.parse(sourceRaw);
+      contentOld.presentation.slides = contentOld.presentation.slides.concat(
+        contentNew.presentation.slides
+      );
+      fs.writeFileSync(targetFile, JSON.stringify(contentOld));
+    } else {
+      fs.writeFileSync(targetFile, fs.readFileSync(source));
+    }
+  } catch (e) {
+    fs.writeFileSync(targetFile, fs.readFileSync(source));
+  }
 }
 
 function copyFolderRecursiveSync(source: string, target: string) {
@@ -24,7 +38,7 @@ function copyFolderRecursiveSync(source: string, target: string) {
   }
 
   files = fs.readdirSync(source);
-  files.forEach(file => {
+  files.forEach((file) => {
     const curSource = path.join(source, file);
     if (fs.lstatSync(curSource).isDirectory()) {
       copyFolderRecursiveSync(curSource, targetFolder);
