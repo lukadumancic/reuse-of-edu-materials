@@ -2,6 +2,7 @@ import { Express } from "express";
 import createFolder from "../helpers/createFolder";
 import moveFile from "../helpers/moveFile";
 import scrape from "../services/WebScraper/WebScraper";
+import editContent from "../helpers/editContent";
 
 const routeName = "/presentation";
 
@@ -24,6 +25,15 @@ export default (app: Express) => {
     try {
       const isMoved = moveFile(req);
       res.sendStatus(isMoved ? 200 : 400);
+    } catch (e) {
+      res.sendStatus(400);
+    }
+  });
+
+  app.post(`${routeName}/edit`, (req, res) => {
+    try {
+      const status = editContent(req);
+      res.sendStatus(status ? 200 : 400);
     } catch (e) {
       res.sendStatus(400);
     }
