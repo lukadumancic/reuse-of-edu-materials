@@ -73,12 +73,13 @@ export function createH5p(presentatioName: string) {
     fs.unlinkSync(Path.join(__dirname, "tmp", "tmp.h5p"));
   } catch (e) {
     console.log("No file 2");
+    console.log(Path.join(__dirname, "tmp", "tmp.h5p"));
   }
   deleteFolderRecursive("./tmp/content");
   copyFolderRecursiveSync(
     Path.join(__dirname, "presentations", "content"),
     Path.join(__dirname, "tmp")
   );
-  execSync(`cd ${Path.join(__dirname, 'tmp')} && zip -r -D -X ${presentatioName}.h5p *`);
-  return Path.join(__dirname, "tmp", `${presentatioName}.h5p`);
+  execSync(`cd ${Path.join(__dirname, 'tmp')} && zip -r -D -X tmp.h5p *`);
+  return Path.join(__dirname, "tmp", `tmp.h5p`);
 }
