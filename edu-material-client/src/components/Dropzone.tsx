@@ -8,6 +8,7 @@ import { addScreens } from "../actions";
 const Dropzone = (props: {
   presentationId: string;
   presentationName: string;
+  order: number[];
 }) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
@@ -74,7 +75,7 @@ const Dropzone = (props: {
     axios({
       url:
         config.restApiHostname +
-        `/presentation/h5p?presentationName=${props.presentationName}`,
+        `/presentation/h5p?presentationName=${props.presentationName}&order=${props.order.join(',')}`,
       method: "GET",
       responseType: "blob",
     }).then((response) => {

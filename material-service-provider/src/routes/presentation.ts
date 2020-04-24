@@ -42,7 +42,7 @@ export default (app: Express) => {
 
   app.get(`${routeName}/h5p`, (req, res) => {
     try {
-      res.download(createH5p(req.query.presentationName));
+      res.download(createH5p(req.query.presentationName, req.query.order.split(',').map((i: string) => parseInt(i, 10))));
     } catch(e) {
       res.sendStatus(400);
     }
