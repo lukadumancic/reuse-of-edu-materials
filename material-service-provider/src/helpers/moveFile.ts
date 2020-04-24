@@ -23,6 +23,7 @@ function copyFileSync(source: string, target: string) {
       fs.writeFileSync(targetFile, fs.readFileSync(source));
     }
   } catch (e) {
+    console.log(e);
     fs.writeFileSync(targetFile, fs.readFileSync(source));
   }
 }

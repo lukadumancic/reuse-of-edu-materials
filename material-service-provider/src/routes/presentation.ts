@@ -3,6 +3,7 @@ import createFolder from "../helpers/createFolder";
 import moveFile from "../helpers/moveFile";
 import scrape from "../services/WebScraper/WebScraper";
 import editContent from "../helpers/editContent";
+import { createH5p } from "../../../h5p-server/h5p-file-creator";
 
 const routeName = "/presentation";
 
@@ -35,6 +36,14 @@ export default (app: Express) => {
       const status = editContent(req);
       res.sendStatus(status ? 200 : 400);
     } catch (e) {
+      res.sendStatus(400);
+    }
+  });
+
+  app.get(`${routeName}/h5p`, (req, res) => {
+    try {
+      res.sendFile(createH5p(req.query.presentationName));
+    } catch(e) {
       res.sendStatus(400);
     }
   });
