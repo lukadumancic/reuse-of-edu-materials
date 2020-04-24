@@ -3,12 +3,13 @@ import {
   ADD_PRESENTATION,
   DELETE_PRESENTATION,
   SET_SELECTED_PRESENTATION_INDEX,
-  ADD_SCREENS
+  ADD_SCREENS,
+  DELETE_SCREEN,
 } from "../actions";
 
 const presentationsState: PresentationsState = {
   presentations: [],
-  selectedPresentationIndex: -1
+  selectedPresentationIndex: -1,
 };
 
 const eventReducer = (state = presentationsState, action: any) => {
@@ -16,23 +17,35 @@ const eventReducer = (state = presentationsState, action: any) => {
     case ADD_PRESENTATION:
       state.presentations.push(action.payload);
       return {
-        ...state
+        ...state,
       };
     case DELETE_PRESENTATION:
       state.presentations.splice(action.payload, 1);
       return {
-        ...state
+        ...state,
       };
     case SET_SELECTED_PRESENTATION_INDEX:
       return {
         ...state,
-        selectedPresentationIndex: action.payload
+        selectedPresentationIndex: action.payload,
       };
     case ADD_SCREENS:
       state.presentations[state.selectedPresentationIndex].screens =
         action.payload;
       return {
-        ...state
+        ...state,
+      };
+    case DELETE_SCREEN:
+      delete state.presentations[state.selectedPresentationIndex].screens[
+        action.payload
+      ];
+      state.presentations[
+        state.selectedPresentationIndex
+      ].screens = state.presentations[
+        state.selectedPresentationIndex
+      ].screens.filter((screen) => !!screen);
+      return {
+        ...state,
       };
     default:
       return state;

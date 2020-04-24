@@ -2,7 +2,7 @@ import React from "react";
 
 interface RoundButtonProps {
   children: any;
-  onClick: () => void;
+  onClick: (e: any) => void;
   className?: string;
 }
 

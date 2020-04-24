@@ -5,7 +5,7 @@ interface CardProps {
   title: string;
   date?: Date;
   onClick: () => void;
-  deleteClick?: () => void;
+  deleteClick?: (e: any) => void;
 }
 
 const Card = (props: CardProps) => {
@@ -14,9 +14,7 @@ const Card = (props: CardProps) => {
       {props.deleteClick && (
         <RoundButton
           className="tool-button"
-          onClick={() => {
-            props.deleteClick && props.deleteClick();
-          }}
+          onClick={props.deleteClick}
         >
           x
         </RoundButton>

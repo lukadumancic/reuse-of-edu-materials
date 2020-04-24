@@ -54,17 +54,44 @@ const Dropzone = (props: {
     }
   }, []);
 
+  const refresh = async () => {
+    const res3 = await axios.get(
+      config.restApiHostname +
+        `/presentation?presentationName=${props.presentationName}`
+    );
+    if (res3.status === 200) {
+      dispatch(
+        addScreens(
+          Object.values(res3.data).map((src) => ({
+            src: src as string,
+          }))
+        )
+      );
+    }
+  };
+
+  const download = async () => {
+    await axios.get(
+      config.restApiHostname +
+        `/presentation/h5p?presentationName=${props.presentationName}`
+    );
+  };
+
   const { isDragActive, getRootProps, getInputProps } = useDropzone({
     onDrop,
     minSize: 0,
   });
 
   return (
-    <div className={"dropzone-container " + (isDragActive ? "active" : "")}>
-      <div {...getRootProps()} style={{ height: "100%" }}>
-        <input {...getInputProps()} />
-        <p>Drag .h5p file here {isLoading ? "Loading... please wait" : ""}</p>
+    <div>
+      <div className={"dropzone-container " + (isDragActive ? "active" : "")}>
+        <div {...getRootProps()} style={{ height: "100%" }}>
+          <input {...getInputProps()} />
+          <p>Drag .h5p file here {isLoading ? "Loading... please wait" : ""}</p>
+        </div>
       </div>
+      <button onClick={refresh}>Refresh</button>
+      <button onClick={download}>Download</button>
     </div>
   );
 };

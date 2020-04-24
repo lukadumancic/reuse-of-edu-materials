@@ -39,7 +39,10 @@ const Home = () => {
               {...card}
               key={index}
               onClick={() => selectPresentation(index)}
-              deleteClick={() => onDeleteClick(index)}
+              deleteClick={(e) => {
+                e.stopPropagation();
+                onDeleteClick(index);
+              }}
             />
           ))
         ) : (
