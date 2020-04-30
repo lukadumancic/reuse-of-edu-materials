@@ -7,6 +7,7 @@ export interface Presentation {
 
 export interface Screen {
   src: string;
+  index?: number;
 }
 
 export interface PresentationsState {

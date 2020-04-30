@@ -1,17 +1,22 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, forwardRef, useImperativeHandle } from "react";
 import { useDropzone } from "react-dropzone";
 import config from "../config";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { addScreens } from "../actions";
 
-const Dropzone = (props: {
+const Dropzone = forwardRef((props: {
   presentationId: string;
   presentationName: string;
   order: number[];
-}) => {
+}, ref) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
+
+  useImperativeHandle(ref, () => ({
+    refresh,
+  }));
+
   const onDrop = useCallback(async (acceptedFiles) => {
     if (isLoading) {
       return;
@@ -39,8 +44,9 @@ const Dropzone = (props: {
           if (res3.status === 200) {
             dispatch(
               addScreens(
-                Object.values(res3.data).map((src) => ({
+                Object.values(res3.data).map((src, index) => ({
                   src: src as string,
+                  index
                 }))
               )
             );
@@ -55,16 +61,17 @@ const Dropzone = (props: {
     }
   }, []);
 
-  const refresh = async () => {
+  const refresh = async (from = 0, to = -1) => {
     const res3 = await axios.get(
       config.restApiHostname +
-        `/presentation?presentationName=${props.presentationName}`
+        `/presentation?presentationName=${props.presentationName}&fromSlide=${from}&toSlide=${to}`
     );
     if (res3.status === 200) {
       dispatch(
         addScreens(
-          Object.values(res3.data).map((src) => ({
+          Object.values(res3.data).map((src, i) => ({
             src: src as string,
+            index: from + i
           }))
         )
       );
@@ -101,10 +108,10 @@ const Dropzone = (props: {
           <p>Drag .h5p file here {isLoading ? "Loading... please wait" : ""}</p>
         </div>
       </div>
-      <button onClick={refresh}>Refresh</button>
+      <button onClick={() => refresh()}>Refresh</button>
       <button onClick={download}>Download</button>
     </div>
   );
-};
+});
 
 export default Dropzone;

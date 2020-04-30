@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import PresentationScreenGrid from "../components/PresentationScreenGrid";
 import { useSelector } from "react-redux";
 import { presentationsSelector } from "../selectors";
@@ -6,6 +6,7 @@ import Dropzone from "../components/Dropzone";
 import { useHistory } from "react-router-dom";
 
 const Presentation = () => {
+  const dropzone: any = useRef(null);
   const [order, setOrder] = useState<number[]>([]);
   const presentations = useSelector(presentationsSelector);
   const currentPresentation =
@@ -37,17 +38,25 @@ const Presentation = () => {
     setOrder(newOrder);
   };
 
+  const refresh = (from = 0, to = -1) => {
+    if (dropzone && dropzone.current) {
+      dropzone.current.refresh(from, to);
+    }
+  };
+
   if (!currentPresentation) {
     return <div />;
   }
   return (
     <>
       <Dropzone
+        ref={dropzone}
         presentationId={currentPresentation.id}
         presentationName={currentPresentation.title}
         order={order}
       />
       <PresentationScreenGrid
+        refresh={refresh}
         presentationName={currentPresentation.title}
         items={currentPresentation.screens}
         onLayoutChange={onReorder}

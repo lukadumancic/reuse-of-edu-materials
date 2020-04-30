@@ -268,6 +268,16 @@ h1.title {
   right: 30px;
 }
 
+.tool-button.delete {
+  top: 25px;
+  right: 20px;
+}
+
+.tool-button.edit {
+  top: 65px;
+  right: 20px;
+}
+
 .card > .tool-button {
   display: none;
 }
@@ -292,7 +302,7 @@ div.dropzone-container {
 }
 
 div.dropzone-container p {
-  color: #FFF;
+  color: #fff;
   font-size: 24px;
   font-weight: 600;
   height: 100%;
@@ -391,4 +401,9 @@ div.dropzone-container.active {
 
 .react-resizable-hide > .react-resizable-handle {
   display: none;
+}
+
+textarea {
+  width: 1000px;
+  height: 500px;
 }

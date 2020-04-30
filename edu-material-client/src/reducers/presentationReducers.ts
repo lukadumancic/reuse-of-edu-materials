@@ -30,8 +30,16 @@ const eventReducer = (state = presentationsState, action: any) => {
         selectedPresentationIndex: action.payload,
       };
     case ADD_SCREENS:
-      state.presentations[state.selectedPresentationIndex].screens =
-        action.payload;
+      if (!state.presentations[state.selectedPresentationIndex].screens) {
+        state.presentations[state.selectedPresentationIndex].screens = [];
+      }
+      action.payload.forEach(
+        ({ src, index }: { src: string; index: number }) => {
+          state.presentations[state.selectedPresentationIndex].screens[
+            index
+          ] = { src };
+        }
+      );
       return {
         ...state,
       };
