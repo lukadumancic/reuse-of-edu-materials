@@ -6,6 +6,8 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { deleteScreen as deleteScreenAction } from "../actions";
 import Modal from "react-modal";
+import { JsonEditor as Editor } from 'jsoneditor-react';
+import 'jsoneditor-react/es/editor.min.css';
 
 const ReactGridLayout = WidthProvider(RGL);
 
@@ -47,7 +49,7 @@ async function editScreen(
       `/presentation/slide?presentationName=${presentationName}&screenIndex=${screenIndex}`
   );
   if (res.data) {
-    setSlideData(JSON.stringify(res.data));
+    setSlideData(JSON.parse(JSON.stringify(res.data)));
   }
 }
 
@@ -59,7 +61,7 @@ async function saveScreen(
   const res = await axios.post(
     config.restApiHostname +
       `/presentation/slide?presentationName=${presentationName}&screenIndex=${screenIndex}`,
-    JSON.parse(slideData)
+    slideData
   );
   if (res.status === 200) {
     return;
@@ -110,7 +112,7 @@ const PresentationScreenGrid = (
               editScreen(props.presentationName, i, setSlideData);
             }}
           >
-            &#9986;
+            🎨
           </RoundButton>
           <img
             draggable="false"
@@ -152,8 +154,8 @@ const PresentationScreenGrid = (
     setLayout(generateLayout());
   }, [props.items.length]);
 
-  const handleChange = (event: any) => {
-    setSlideData(event.target.value);
+  const handleChange = (data: any) => {
+    setSlideData(data);
   };
 
   return (
@@ -175,7 +177,10 @@ const PresentationScreenGrid = (
         contentLabel="Add new presentation"
       >
         <form className="add-presentation">
-          <textarea name="textarea" value={slideData} onChange={handleChange} />
+          <Editor
+              value={slideData}
+              onChange={handleChange}
+          />
           <br />
           <button
             type="submit"
