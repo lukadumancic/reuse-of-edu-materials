@@ -1,5 +1,5 @@
 # reuse-of-edu-materials
-University project that uses H5p and NodeJS in the core
+ H5p web editor and NodeJS in the core
 
 ## Development server
 
